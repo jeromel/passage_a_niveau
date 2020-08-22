@@ -6,9 +6,10 @@
 * et 2 feux routiers qui clignotent
 ***************************************************************************/
 
-
 #include <Servo.h>
 #include <Bounce2.h>
+
+#include "include/moteur_barriere.h"
 
 #define PIN_CAPTEUR_OUVRE 2  
 #define PIN_CAPTEUR_FERME 3  
@@ -45,24 +46,6 @@ unsigned long timerLed = millis();                    // timer pour le clignotem
 Bounce capteurOuverture;                              // anti rebond
 Bounce capteurFermeture;                              // anti rebond
 
-/************************************************************************************
-* les servos
-**************************************************************************************/
-
-int angleFerme = ANGLE_FERMETURE;                     // angle de fermeture
-int angleOuvre = ANGLE_OUVERTURE;                     // angle pour l'ouverture
-int angleDroit;                                       // angle actuel du servo 1
-int angleGauche;                                      // angle actuel du servo 2
-int pasServo = PAS_ANGULAIRE;                         // pas angulaire
-enum mode {montee,descente,arret};
-mode sens = arret;                                    // sens du mouvement de la barriere
-enum etat {ouvert, ferme, encours};
-etat situation = ouvert;                              // situation de la barriere
-bool actif = false;                                   // etat de la manoeuvre                                      
-unsigned long timerServo;                             // timer pour le servo
-int duree = VITESSE_SERVO;                            // vitesse des servos            
-Servo servoDroit;                                     // servo de la premiere barriere
-Servo servoGauche;                                    // servo de la seconde barriere
 
 /*****************************************************************************
 * clignotement des feux routiers
@@ -79,85 +62,14 @@ if (timerLed + changement < millis())     // vitesse de clignotement
    }
 }
 
-/*****************************************************************************
-* initialisation de l'ouverture des barrieres
-*****************************************************************************/
-
-void ouverture() {
-if (situation != ouvert) {                      // si pas deja ouvert
-   servoDroit.attach(PIN_SERVO_DROIT);           // on attache les servos
-   servoGauche.attach(PIN_SERVO_GAUCHE);  
-   actif = true;                               // on devient actif          
-   angleDroit = angleFerme;                    // une des barrieres va vers le bas (inversion des servos)
-   angleGauche = angleOuvre;                   // l'autre en symetrie va vers le haut
-   timerServo = millis();                      // MAJ du timer
-   sens = montee;                              // on monte          
-   situation = encours;                        // manoeuvre en cours
-   }
-}
-
-/**************************************************************************
-* initialisation de la fermeture des barrieres
-***************************************************************************/
-
-void fermeture() {
-if (situation != ferme ) {                      // si pas deja ferme
-   servoDroit.attach(PIN_SERVO_DROIT);                          // on attach les servos
-   servoGauche.attach(PIN_SERVO_GAUCHE);
-   actif = true;                               // on devient actif
-   angleDroit = angleOuvre;                        // une des barrieres va vers le haut (inversion des servos)
-   angleGauche = angleFerme;                        // l'uatre en symetrie vers le bas
-   timerServo = millis();                      // MAJ des timers
-   timerLed = millis();
-   sens = descente;                            // on descend          
-   situation = encours;                        // manoeuvre en cours  
-   }
-}
-
-/*******************************************************************************
-* manoeuvre de la bbariere
-*********************************************************************************/
-
-void manoeuvre() {
- if (actif){
-   if ((timerServo + duree) < millis()){             // vitesse des servos
-           if (sens == montee) {angleDroit += pasServo; angleGauche -= pasServo;          // on monte
-                               if (angleDroit >= angleOuvre) {           // en bout de course
-                                   actif = false;                    // on n'est plus actif
-                                   sens = arret;                     // on est a l'arret
-                                   situation = ouvert;               // la barriere est ouverte
-                                   analogWrite(PIN_FEU_DROIT,ETEINT);           // on eteint les feux routiers
-                                   analogWrite(PIN_FEU_GAUCHE,ETEINT);
-                                   servoDroit.detach();                  // on detache les servos
-                                   servoGauche.detach();
-                                   Serial.println("manoeuvre:montee");
-                                   return;}                          // termine
-                               }
-           if (sens == descente) {angleDroit -= pasServo; angleGauche += pasServo;      // on descend
-                               if (angleDroit <= angleFerme) {         // en bout de course
-                                 actif = false;                    // on n'est plus actif
-                                 sens = arret;                     // on est a l'arret
-                                 situation = ferme;                // la barriere est fermee
-                                 servoDroit.detach();                  // on detache les servos
-                                 servoGauche.detach();
-                                 Serial.println("manoeuvre:descente");
-                                 return;}                          // termine
-                               }
-           servoDroit.writeMicroseconds(angleDroit);                       // on avance de l'angle  
-           servoGauche.writeMicroseconds(angleGauche);
-           analogWrite(PIN_FEU_DROIT,ALLUME);                                   // on allume les feux routiers
-           analogWrite(PIN_FEU_GAUCHE,ALLUME);
-           timerServo = millis();
-       }
-   }
-}
-
 /*******************************************************************
 * setup
 ******************************************************************/
 
 void setup()
 {
+  moteur_barriere_initialiser();
+  
    servoDroit.attach(PIN_SERVO_DROIT);servoDroit.writeMicroseconds(angleOuvre);
    servoGauche.attach(PIN_SERVO_GAUCHE);servoGauche.writeMicroseconds(angleFerme);
    pinMode(PIN_CAPTEUR_OUVRE,INPUT_PULLUP);capteurOuverture.attach(PIN_CAPTEUR_OUVRE);capteurOuverture.interval(INTERVAL);
@@ -176,9 +88,9 @@ void setup()
 void loop()
 {    
     if (situation == ferme) { Serial.print("situation :"); Serial.println("ferme"); clignote();}
-    if (capteurOuverture.fell()) {Serial.println("ouverture"); ouverture();}
-    if (capteurFermeture.fell()) {Serial.println("fermeture"); fermeture();}
-    if (situation == encours) {Serial.print("situation :"); Serial.println("encours"); manoeuvre();}
+    if (capteurOuverture.fell()) {Serial.println("ouverture"); moteur_barriere_ouverture();}
+    if (capteurFermeture.fell()) {Serial.println("fermeture"); moteur_barriere_fermeture();}
+    if (situation == encours) {Serial.print("situation :"); Serial.println("encours"); moteur_barriere_manoeuvre();}
     capteurOuverture.update();
     capteurFermeture.update();
    
