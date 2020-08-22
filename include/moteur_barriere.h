@@ -62,11 +62,11 @@ extern etat situation;                              // situation de la barriere
 
 void moteur_barriere_initialiser();
 
-void moteur_barriere_ouverture();
+void moteur_barriere_ouvrir();
 
-void moteur_barriere_fermeture();
+void moteur_barriere_fermer();
 
-void moteur_barriere_manoeuvre();
+void moteur_barriere_manoeuvrer();
 
 /***************************************************************/
 /***************************************************************/

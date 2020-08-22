@@ -62,16 +62,10 @@ if (timerLed + changement < millis())     // vitesse de clignotement
    }
 }
 
-/*******************************************************************
-* setup
-******************************************************************/
-
 void setup()
 {
   moteur_barriere_initialiser();
-  
-   servoDroit.attach(PIN_SERVO_DROIT);servoDroit.writeMicroseconds(angleOuvre);
-   servoGauche.attach(PIN_SERVO_GAUCHE);servoGauche.writeMicroseconds(angleFerme);
+
    pinMode(PIN_CAPTEUR_OUVRE,INPUT_PULLUP);capteurOuverture.attach(PIN_CAPTEUR_OUVRE);capteurOuverture.interval(INTERVAL);
    pinMode(PIN_CAPTEUR_FERME, INPUT_PULLUP);capteurFermeture.attach(PIN_CAPTEUR_FERME);capteurFermeture.interval(INTERVAL);
    analogWrite(PIN_FEU_DROIT,ETEINT);
@@ -80,18 +74,30 @@ void setup()
    Serial.begin(115200);
    Serial.println("On ouvre ?");
 } 
-
-/*******************************************************************
- * la boucle
- ********************************************************************/
  
 void loop()
 {    
-    if (situation == ferme) { Serial.print("situation :"); Serial.println("ferme"); clignote();}
-    if (capteurOuverture.fell()) {Serial.println("ouverture"); moteur_barriere_ouverture();}
-    if (capteurFermeture.fell()) {Serial.println("fermeture"); moteur_barriere_fermeture();}
-    if (situation == encours) {Serial.print("situation :"); Serial.println("encours"); moteur_barriere_manoeuvre();}
-    capteurOuverture.update();
-    capteurFermeture.update();
+    
    
+}
+
+void passage_a_niveau_gerer() {
+  if (situation == ferme) {
+    clignote();
+  }
+    
+  if (capteurOuverture.fell()) {
+    moteur_barriere_ouvrir();
+  }
+      
+  if (capteurFermeture.fell()) {
+  moteur_barriere_fermer();
+  }
+    
+  if (situation == encours) {
+    moteur_barriere_manoeuvrer();
+  }
+  
+  capteurOuverture.update();
+  capteurFermeture.update();
 }
