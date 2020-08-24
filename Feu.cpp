@@ -2,8 +2,8 @@
 
 #include "Feu.h"
 
-#define ALLUME 0
-#define ETEINT 255
+#define ALLUME 255
+#define ETEINT 0
 
 void Feu::Allumer() {
     analogWrite(_numeroPin,ALLUME);

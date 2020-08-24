@@ -3,7 +3,7 @@
 
 #include "PassageNiveauEtat.h"
 
-#define DEBUG_MAX_FOIS_CET_ETAT 50
+#define DEBUG_MAX_FOIS_CET_ETAT 30
 
 class PassageNiveauEtatManoeuvrer : public PassageNiveauEtat {
     private:
