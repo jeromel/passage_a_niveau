@@ -1,11 +1,11 @@
 #include <Arduino.h>
 
 #include "PassageNiveauContexte.h"
-#include "PassageNiveauEtatManoeuvrer.h"
-#include "PassageNiveauEtatAttente.h"
+#include "PassageNiveauEtatFermer.h"
+#include "PassageNiveauEtatAttenteFermee.h"
 
-void PassageNiveauEtatManoeuvrer::TraiterEtat() {
-    Serial.print("PassageNiveauEtatManoeuvrer [");
+void PassageNiveauEtatFermer::TraiterEtat() {
+    Serial.println("PassageNiveauEtatFermer [");
     Serial.print(this->debugNombreFoisDansCetEtat);
     Serial.println("]");
 
@@ -19,6 +19,6 @@ void PassageNiveauEtatManoeuvrer::TraiterEtat() {
       }
       
       this->debugNombreFoisDansCetEtat = 0;
-      this->_contexte->TransiterVers(new PassageNiveauEtatAttente());
+      this->_contexte->TransiterVers(new PassageNiveauEtatAttenteFermee());
     }
 }

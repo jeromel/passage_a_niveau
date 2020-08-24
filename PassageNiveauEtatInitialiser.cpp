@@ -3,7 +3,7 @@
 
 #include "PassageNiveauContexte.h"
 #include "PassageNiveauEtatInitialiser.h"
-#include "PassageNiveauEtatAttente.h"
+#include "PassageNiveauEtatAttenteOuverte.h"
 
 #define PIN_SERVO_DROIT A2  
 #define PIN_SERVO_GAUCHE A3
@@ -45,5 +45,5 @@ void PassageNiveauEtatInitialiser::TraiterEtat() {
     this->_contexte->capteurFermeture.attach(PIN_CAPTEUR_FERME);
     this->_contexte->capteurFermeture.interval(INTERVAL);
 
-    this->_contexte->TransiterVers(new PassageNiveauEtatAttente());
+    this->_contexte->TransiterVers(new PassageNiveauEtatAttenteOuverte());
 }
