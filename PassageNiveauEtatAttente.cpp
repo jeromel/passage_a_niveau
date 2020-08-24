@@ -2,10 +2,15 @@
 
 #include "PassageNiveauContexte.h"
 #include "PassageNiveauEtatAttente.h"
-#include "PassageNiveauEtatOuverture.h"
+#include "PassageNiveauEtatManoeuvrer.h"
 
 void PassageNiveauEtatAttente::TraiterEtat() {
     Serial.println("PassageNiveauEtatAttente");
 
-    this->_contexte->clignoter->FaireClignoterFeux( this->_contexte->feux, this->_contexte->nombreFeux );
+    if (Serial.available()) {
+      int inputControl = Serial.read();
+      if ('m' == inputControl) {
+        this->_contexte->TransiterVers(new PassageNiveauEtatManoeuvrer());
+      }
+    }
 }
