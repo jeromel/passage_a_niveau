@@ -22,28 +22,28 @@
 void PassageNiveauEtatInitialiser::TraiterEtat() {
     Serial.println("PassageNiveauEtatInitialiser");
 
-    this->contexte_->angleFerme = ANGLE_FERMETURE;                     // angle de fermeture
-    this->contexte_->angleOuvre = ANGLE_OUVERTURE;                     // angle pour l'ouverture
-    this->contexte_->pasServo = PAS_ANGULAIRE;                         // pas angulaire
-    this->contexte_->actif = false;                                   // etat de la manoeuvre                                      
-    this->contexte_->duree = VITESSE_SERVO;                            // vitesse des servos            
+    this->_contexte->angleFerme = ANGLE_FERMETURE;                     // angle de fermeture
+    this->_contexte->angleOuvre = ANGLE_OUVERTURE;                     // angle pour l'ouverture
+    this->_contexte->pasServo = PAS_ANGULAIRE;                         // pas angulaire
+    this->_contexte->actif = false;                                   // etat de la manoeuvre                                      
+    this->_contexte->duree = VITESSE_SERVO;                            // vitesse des servos            
 
-    this->contexte_->sens = arret;                                    // sens du mouvement de la barriere
-    this->contexte_->situation = ouvert;                              // situation de la barriere
+    this->_contexte->sens = arret;                                    // sens du mouvement de la barriere
+    this->_contexte->situation = ouvert;                              // situation de la barriere
 
-    this->contexte_->servoDroitBarriere.attach(PIN_SERVO_DROIT);
-    this->contexte_->servoDroitBarriere.writeMicroseconds(this->contexte_->angleOuvre);
+    this->_contexte->servoDroitBarriere.attach(PIN_SERVO_DROIT);
+    this->_contexte->servoDroitBarriere.writeMicroseconds(this->_contexte->angleOuvre);
     
-    this->contexte_->servoGaucheBarriere.attach(PIN_SERVO_GAUCHE);
-    this->contexte_->servoGaucheBarriere.writeMicroseconds(this->contexte_->angleFerme);
+    this->_contexte->servoGaucheBarriere.attach(PIN_SERVO_GAUCHE);
+    this->_contexte->servoGaucheBarriere.writeMicroseconds(this->_contexte->angleFerme);
 
     pinMode(PIN_CAPTEUR_OUVRE,INPUT_PULLUP);
-    this->contexte_->capteurOuverture.attach(PIN_CAPTEUR_OUVRE);
-    this->contexte_->capteurOuverture.interval(INTERVAL);
+    this->_contexte->capteurOuverture.attach(PIN_CAPTEUR_OUVRE);
+    this->_contexte->capteurOuverture.interval(INTERVAL);
     
     pinMode(PIN_CAPTEUR_FERME, INPUT_PULLUP);
-    this->contexte_->capteurFermeture.attach(PIN_CAPTEUR_FERME);
-    this->contexte_->capteurFermeture.interval(INTERVAL);
+    this->_contexte->capteurFermeture.attach(PIN_CAPTEUR_FERME);
+    this->_contexte->capteurFermeture.interval(INTERVAL);
 
-    this->contexte_->TransiterVers(new PassageNiveauEtatAttente());
+    this->_contexte->TransiterVers(new PassageNiveauEtatAttente());
 }

@@ -5,14 +5,14 @@ class PassageNiveauContexte;
 
 class PassageNiveauEtat {
     protected:
-        PassageNiveauContexte *contexte_;
+        PassageNiveauContexte *_contexte;
 
     public:
         virtual ~PassageNiveauEtat() {
         }
 
         void setContexte(PassageNiveauContexte *contexte) {
-            this->contexte_ = contexte;
+            this->_contexte = contexte;
         }
 
         virtual void TraiterEtat() = 0;

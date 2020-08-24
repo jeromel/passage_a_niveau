@@ -9,24 +9,10 @@
 #include <Servo.h>
 #include <Bounce2.h>
 
+
 #define PIN_CAPTEUR_OUVRE 2  
 #define PIN_CAPTEUR_FERME 3  
 #define INTERVAL 50
-
-#define PIN_FEU_DROIT 4
-#define PIN_FEU_GAUCHE 5
-#define ALLUME 0
-#define ETEINT 255
-#define VITESSE_CLIGNOTEMENT 250
-
-
-/***********************************************************************
-* les feux routiers
-**************************************************************************/
-
-int cycle = 0;                                        // cycles de clignotement
-int changement = VITESSE_CLIGNOTEMENT;                // vitesse de clignotement
-unsigned long timerLed = millis();                    // timer pour le clignotement
 
 /******************************************************************************
 * les capteurs
@@ -45,16 +31,6 @@ PassageNiveauContexte *contexte;
 * clignotement des feux routiers
 ***************************************************************************/
 
-void clignote() {
-if (timerLed + changement < millis())     // vitesse de clignotement
-   {
-   timerLed = millis();                  // reinit le timer
-   switch (cycle) {
-           case 0 : {analogWrite(PIN_FEU_DROIT,ALLUME); analogWrite(PIN_FEU_GAUCHE,ALLUME);cycle = 1;break;}      // on allume
-           case 1 : {analogWrite(PIN_FEU_DROIT,ETEINT); analogWrite(PIN_FEU_GAUCHE,ETEINT);cycle = 0;break;}      // on eteint
-       }
-   }
-}
 
 void passage_a_niveau_gerer() {
   /*
@@ -80,7 +56,7 @@ void passage_a_niveau_gerer() {
 void setup()
 {
   Serial.begin(115200);
-  
+
   contexte  = new PassageNiveauContexte(new PassageNiveauEtatInitialiser());
 } 
  

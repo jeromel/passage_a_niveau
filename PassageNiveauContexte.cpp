@@ -4,14 +4,14 @@
 #include "PassageNiveauContexte.h"
 
 void PassageNiveauContexte::TransiterVers(PassageNiveauEtat *etat) {
-    if (this->etat_ != nullptr) {
-        delete this->etat_;
+    if (this->_etat != nullptr) {
+        delete this->_etat;
     }
 
-    this->etat_ = etat;
-    this->etat_->setContexte(this);
+    this->_etat = etat;
+    this->_etat->setContexte(this);
 }
 
 void PassageNiveauContexte::TraiterFonctionDuContexte() {
-    this->etat_->TraiterEtat();
+    this->_etat->TraiterEtat();
 }
