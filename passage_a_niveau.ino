@@ -74,9 +74,6 @@ void passage_a_niveau_gerer() {
     //moteur_barriere_manoeuvrer();
   }
   */
-  
-  capteurOuverture.update();
-  capteurFermeture.update();
 }
 
 
@@ -90,5 +87,7 @@ void setup()
 void loop()
 {    
     delay(100);
+    capteurOuverture.update();
+    capteurFermeture.update();
     contexte->TraiterFonctionDuContexte();
 }
