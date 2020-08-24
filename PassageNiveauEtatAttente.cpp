@@ -6,6 +6,4 @@
 
 void PassageNiveauEtatAttente::TraiterEtat() {
     Serial.println("PassageNiveauEtatAttente");
-
-    this->contexte_->TransiterVers(new PassageNiveauEtatOuverture());
 }

@@ -82,14 +82,13 @@ void passage_a_niveau_gerer() {
 
 void setup()
 {
+  Serial.begin(115200);
+  
   contexte  = new PassageNiveauContexte(new PassageNiveauEtatInitialiser());
-  contexte->TraiterFonctionDuContexte();
-    
-   Serial.begin(115200);
 } 
  
 void loop()
 {    
-    
-   
+    delay(100);
+    contexte->TraiterFonctionDuContexte();
 }

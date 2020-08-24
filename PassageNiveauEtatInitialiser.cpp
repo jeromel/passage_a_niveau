@@ -1,7 +1,9 @@
 #include <Arduino.h>
 #include <Bounce2.h>
+
 #include "PassageNiveauContexte.h"
 #include "PassageNiveauEtatInitialiser.h"
+#include "PassageNiveauEtatAttente.h"
 
 #define PIN_SERVO_DROIT A2  
 #define PIN_SERVO_GAUCHE A3
@@ -42,4 +44,6 @@ void PassageNiveauEtatInitialiser::TraiterEtat() {
     pinMode(PIN_CAPTEUR_FERME, INPUT_PULLUP);
     this->contexte_->capteurFermeture.attach(PIN_CAPTEUR_FERME);
     this->contexte_->capteurFermeture.interval(INTERVAL);
+
+    this->contexte_->TransiterVers(new PassageNiveauEtatAttente());
 }
