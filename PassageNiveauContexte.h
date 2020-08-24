@@ -1,7 +1,8 @@
 #ifndef PASSAGE_NIVEAU_CONTEXTE_H
 #define PASSAGE_NIVEAU_CONTEXTE_H
 
-#include "Servo.h"
+#include <Servo.h>
+#include <Bounce2.h>
 
 enum mode {montee,descente,arret};
 enum etat {ouvert, ferme, encours};
@@ -26,6 +27,9 @@ class PassageNiveauContexte {
 
         mode sens;                          // sens du mouvement de la barriere
         etat situation;                     // situation de la barriere
+
+        Bounce capteurOuverture;                              // anti rebond
+        Bounce capteurFermeture;                              // anti rebond
 
         PassageNiveauContexte(PassageNiveauEtat *etat) : etat_(nullptr) {
             this->TransiterVers(etat);

@@ -1,5 +1,5 @@
 #include <Arduino.h>
-
+#include <Bounce2.h>
 #include "PassageNiveauContexte.h"
 #include "PassageNiveauEtatInitialiser.h"
 
@@ -12,6 +12,10 @@
 #define ANGLE_FERMETURE 1300
 #define ANGLE_OUVERTURE 1900
 #define PAS_ANGULAIRE 20
+
+#define PIN_CAPTEUR_OUVRE 2  
+#define PIN_CAPTEUR_FERME 3  
+#define INTERVAL 50
 
 void PassageNiveauEtatInitialiser::TraiterEtat() {
     Serial.println("PassageNiveauEtatInitialiser");
@@ -30,4 +34,12 @@ void PassageNiveauEtatInitialiser::TraiterEtat() {
     
     this->contexte_->servoGaucheBarriere.attach(PIN_SERVO_GAUCHE);
     this->contexte_->servoGaucheBarriere.writeMicroseconds(this->contexte_->angleFerme);
+
+    pinMode(PIN_CAPTEUR_OUVRE,INPUT_PULLUP);
+    this->contexte_->capteurOuverture.attach(PIN_CAPTEUR_OUVRE);
+    this->contexte_->capteurOuverture.interval(INTERVAL);
+    
+    pinMode(PIN_CAPTEUR_FERME, INPUT_PULLUP);
+    this->contexte_->capteurFermeture.attach(PIN_CAPTEUR_FERME);
+    this->contexte_->capteurFermeture.interval(INTERVAL);
 }
