@@ -1,7 +1,7 @@
-#include <iostream>
+#include <Arduino.h>
 
 #include "PassageNiveauEtatOuverture.h"
 
 void PassageNiveauEtatOuverture::TraiterEtat() {
-    std::cout << "PassageNiveauEtatOuverture";
+    Serial.println("PassageNiveauEtatOuverture");
 }

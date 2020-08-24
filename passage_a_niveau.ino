@@ -9,8 +9,6 @@
 #include <Servo.h>
 #include <Bounce2.h>
 
-#include "include/moteur_barriere.h"
-
 #define PIN_CAPTEUR_OUVRE 2  
 #define PIN_CAPTEUR_FERME 3  
 #define INTERVAL 50
@@ -21,15 +19,6 @@
 #define ETEINT 255
 #define VITESSE_CLIGNOTEMENT 250
 
-#define PIN_SERVO_DROIT A2  
-#define PIN_SERVO_GAUCHE A3
-
-// a regler en fonction des servos
-
-#define VITESSE_SERVO 80
-#define ANGLE_FERMETURE 1300
-#define ANGLE_OUVERTURE 1900
-#define PAS_ANGULAIRE 20
 
 /***********************************************************************
 * les feux routiers
@@ -47,6 +36,11 @@ Bounce capteurOuverture;                              // anti rebond
 Bounce capteurFermeture;                              // anti rebond
 
 
+#include "PassageNiveauContexte.h"
+#include "PassageNiveauEtatInitialiser.h"
+
+PassageNiveauContexte *contexte;
+
 /*****************************************************************************
 * clignotement des feux routiers
 ***************************************************************************/
@@ -62,42 +56,40 @@ if (timerLed + changement < millis())     // vitesse de clignotement
    }
 }
 
+void passage_a_niveau_gerer() {
+  /*
+  if (situation == ferme) {
+    clignote();
+  }
+    
+  if (capteurOuverture.fell()) {
+    //moteur_barriere_ouvrir();
+  }
+      
+  if (capteurFermeture.fell()) {
+    //moteur_barriere_fermer();
+  }
+    
+  if (situation == encours) {
+    //moteur_barriere_manoeuvrer();
+  }
+  */
+  
+  capteurOuverture.update();
+  capteurFermeture.update();
+}
+
+
 void setup()
 {
-  moteur_barriere_initialiser();
-
-   pinMode(PIN_CAPTEUR_OUVRE,INPUT_PULLUP);capteurOuverture.attach(PIN_CAPTEUR_OUVRE);capteurOuverture.interval(INTERVAL);
-   pinMode(PIN_CAPTEUR_FERME, INPUT_PULLUP);capteurFermeture.attach(PIN_CAPTEUR_FERME);capteurFermeture.interval(INTERVAL);
-   analogWrite(PIN_FEU_DROIT,ETEINT);
-   analogWrite(PIN_FEU_GAUCHE,ETEINT);
-
+  contexte  = new PassageNiveauContexte(new PassageNiveauEtatInitialiser());
+  contexte->TraiterFonctionDuContexte();
+    
    Serial.begin(115200);
-   Serial.println("On ouvre ?");
 } 
  
 void loop()
 {    
     
    
-}
-
-void passage_a_niveau_gerer() {
-  if (situation == ferme) {
-    clignote();
-  }
-    
-  if (capteurOuverture.fell()) {
-    moteur_barriere_ouvrir();
-  }
-      
-  if (capteurFermeture.fell()) {
-  moteur_barriere_fermer();
-  }
-    
-  if (situation == encours) {
-    moteur_barriere_manoeuvrer();
-  }
-  
-  capteurOuverture.update();
-  capteurFermeture.update();
 }

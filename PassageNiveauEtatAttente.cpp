@@ -1,11 +1,11 @@
-#include <iostream>
+#include <Arduino.h>
 
 #include "PassageNiveauContexte.h"
 #include "PassageNiveauEtatAttente.h"
 #include "PassageNiveauEtatOuverture.h"
 
 void PassageNiveauEtatAttente::TraiterEtat() {
-    std::cout << "PassageNiveauEtatAttente";
+    Serial.println("PassageNiveauEtatAttente");
 
     this->contexte_->TransiterVers(new PassageNiveauEtatOuverture());
 }

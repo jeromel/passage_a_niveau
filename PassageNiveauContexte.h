@@ -1,9 +1,7 @@
 #ifndef PASSAGE_NIVEAU_CONTEXTE_H
 #define PASSAGE_NIVEAU_CONTEXTE_H
 
-#include <iostream>
-
-#include "/Applications/Arduino.app/Contents/Java/libraries/Servo/src/Servo.h"
+#include "Servo.h"
 
 enum mode {montee,descente,arret};
 enum etat {ouvert, ferme, encours};
@@ -15,8 +13,16 @@ class PassageNiveauContexte {
         PassageNiveauEtat *etat_;
 
     public:
-        Servo servoDroitBarriere;                   // servo de la premiere barriere
-        Servo servoGaucheBarriere;                  // servo de la seconde barriere
+        int angleFerme;                     // angle de fermeture
+        int angleOuvre;                     // angle pour l'ouverture
+        int angleDroit;                     // angle actuel du servo 1
+        int angleGauche;                    // angle actuel du servo 2
+        int pasServo;                       // pas angulaire
+        bool actif;                         // etat de la manoeuvre                                      
+        unsigned long timerServo;           // timer pour le servo
+        int duree;                          // vitesse des servos            
+        Servo servoDroitBarriere;           // servo de la premiere barriere
+        Servo servoGaucheBarriere;          // servo de la seconde barriere
 
         mode sens;                          // sens du mouvement de la barriere
         etat situation;                     // situation de la barriere

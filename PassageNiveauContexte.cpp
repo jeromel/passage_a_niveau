@@ -1,8 +1,9 @@
+#include <Arduino.h>
+
 #include "PassageNiveauEtat.h"
 #include "PassageNiveauContexte.h"
 
 void PassageNiveauContexte::TransiterVers(PassageNiveauEtat *etat) {
-    std::cout << "Contexte: TransitionVers " << typeid(*etat).name() << ".\n";
     if (this->etat_ != nullptr) {
         delete this->etat_;
     }

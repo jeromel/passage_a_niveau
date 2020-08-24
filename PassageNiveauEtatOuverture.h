@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "PassageNiveauEtat.h"
 
 class PassageNiveauEtatOuverture : public PassageNiveauEtat {
