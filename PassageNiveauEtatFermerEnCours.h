@@ -1,11 +1,11 @@
-#ifndef PASSAGE_NIVEAU_ETAT_FERMER_H
-#define PASSAGE_NIVEAU_ETAT_FERMER_H
+#ifndef PASSAGE_NIVEAU_ETAT_MANOEUVRER_FERMER_H
+#define PASSAGE_NIVEAU_ETAT_MANOEUVRER_FERMER_H
 
 #include "PassageNiveauEtat.h"
 
 #define DEBUG_MAX_FOIS_CET_ETAT 30
 
-class PassageNiveauEtatFermer : public PassageNiveauEtat {
+class PassageNiveauEtatFermerEnCours : public PassageNiveauEtat {
 
     private:
         int debugNombreFoisDansCetEtat;

@@ -2,8 +2,7 @@
 
 #include "PassageNiveauContexte.h"
 #include "PassageNiveauEtatAttenteOuverte.h"
-#include "PassageNiveauEtatOuvrir.h"
-#include "PassageNiveauEtatFermer.h"
+#include "PassageNiveauEtatAmorcerFermeture.h"
 
 void PassageNiveauEtatAttenteOuverte::TraiterEtat() {
     Serial.println("PassageNiveauEtatAttenteOuverte");
@@ -11,7 +10,7 @@ void PassageNiveauEtatAttenteOuverte::TraiterEtat() {
     if (Serial.available()) {
       int inputControl = Serial.read();
       if ('f' == inputControl) {
-        this->_contexte->TransiterVers(new PassageNiveauEtatFermer());
+        this->_contexte->TransiterVers(new PassageNiveauEtatAmorcerFermeture());
       }
     }
 }

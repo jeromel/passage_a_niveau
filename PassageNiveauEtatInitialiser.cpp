@@ -22,21 +22,6 @@
 void PassageNiveauEtatInitialiser::TraiterEtat() {
     Serial.println("PassageNiveauEtatInitialiser");
 
-    this->_contexte->angleFerme = ANGLE_FERMETURE;                     // angle de fermeture
-    this->_contexte->angleOuvre = ANGLE_OUVERTURE;                     // angle pour l'ouverture
-    this->_contexte->pasServo = PAS_ANGULAIRE;                         // pas angulaire
-    this->_contexte->actif = false;                                   // etat de la manoeuvre                                      
-    this->_contexte->duree = VITESSE_SERVO;                            // vitesse des servos            
-
-    this->_contexte->sens = arret;                                    // sens du mouvement de la barriere
-    this->_contexte->situation = ouvert;                              // situation de la barriere
-
-    this->_contexte->servoDroitBarriere.attach(PIN_SERVO_DROIT);
-    this->_contexte->servoDroitBarriere.writeMicroseconds(this->_contexte->angleOuvre);
-    
-    this->_contexte->servoGaucheBarriere.attach(PIN_SERVO_GAUCHE);
-    this->_contexte->servoGaucheBarriere.writeMicroseconds(this->_contexte->angleFerme);
-
     pinMode(PIN_CAPTEUR_OUVRE,INPUT_PULLUP);
     this->_contexte->capteurOuverture.attach(PIN_CAPTEUR_OUVRE);
     this->_contexte->capteurOuverture.interval(INTERVAL);
