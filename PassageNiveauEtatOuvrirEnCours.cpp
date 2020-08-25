@@ -11,6 +11,8 @@ void PassageNiveauEtatOuvrirEnCours::TraiterEtat() {
     bool manoeuvreTermineeDroite = this->_contexte->barriereDroite->ManoeuvrerOuvrir();
     bool manoeuvreTermineeGauche = this->_contexte->barriereGauche->ManoeuvrerOuvrir();
 
+    this->_contexte->clignoter->FaireClignoterFeux(this->_contexte->feux, this->_contexte->nombreFeux);
+    
     int positionBarriereGauche = this->_contexte->barriereGauche->LirePositionBarriere();
     int positionBarriereDroite = this->_contexte->barriereDroite->LirePositionBarriere();
 

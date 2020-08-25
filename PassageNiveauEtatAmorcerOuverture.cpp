@@ -8,11 +8,8 @@
 void PassageNiveauEtatAmorcerOuverture::TraiterEtat() {
     Serial.println("PassageNiveauEtatAmorcerOuverture");
 
-    int indexFeu = 0;
-    for (indexFeu = 0; indexFeu < this->_contexte->nombreFeux; ++indexFeu) {
-      this->_contexte->feux[indexFeu]->Eteindre();
-    }
-
+    this->_contexte->clignoter->FaireClignoterFeux(this->_contexte->feux, this->_contexte->nombreFeux);
+    
     this->_contexte->barriereDroite->AmorcerOuverture();
     this->_contexte->barriereGauche->AmorcerOuverture();
 
