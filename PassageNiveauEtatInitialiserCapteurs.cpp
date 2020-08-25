@@ -30,5 +30,13 @@ void PassageNiveauEtatInitialiserCapteurs::TraiterEtat() {
     this->_contexte->capteurFermeture.attach(PIN_CAPTEUR_FERME);
     this->_contexte->capteurFermeture.interval(INTERVAL);
 
+    int positionBarriereGauche = this->_contexte->barriereGauche->LirePositionBarriere();
+    int positionBarriereDroite = this->_contexte->barriereDroite->LirePositionBarriere();
+
+    Serial.print("PositionBarriereGauche: ");
+    Serial.print(positionBarriereGauche);
+    Serial.print(" PositionBarriereDroite: ");
+    Serial.println(positionBarriereDroite);
+    
     this->_contexte->TransiterVers(new PassageNiveauEtatAmorcerOuverture());
 }

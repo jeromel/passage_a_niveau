@@ -117,3 +117,9 @@ bool Barriere::ManoeuvrerOuvrir() {
     
     return manoeuvreTerminee;
 }
+
+int Barriere::LirePositionBarriere() {
+  int positionBarriere = this->_servoMoteurBarriere.read(); 
+
+  return positionBarriere;
+}

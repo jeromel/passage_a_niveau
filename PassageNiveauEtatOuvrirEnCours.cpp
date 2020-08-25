@@ -10,6 +10,14 @@ void PassageNiveauEtatOuvrirEnCours::TraiterEtat() {
 
     bool manoeuvreTermineeDroite = this->_contexte->barriereDroite->ManoeuvrerOuvrir();
     bool manoeuvreTermineeGauche = this->_contexte->barriereGauche->ManoeuvrerOuvrir();
+
+    int positionBarriereGauche = this->_contexte->barriereGauche->LirePositionBarriere();
+    int positionBarriereDroite = this->_contexte->barriereDroite->LirePositionBarriere();
+
+    Serial.print("PositionBarriereGauche: ");
+    Serial.print(positionBarriereGauche);
+    Serial.print(" PositionBarriereDroite: ");
+    Serial.println(positionBarriereDroite);
     
     if (true == manoeuvreTermineeDroite) {    
       int indexFeu = 0;

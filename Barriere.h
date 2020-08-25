@@ -45,6 +45,8 @@ class Barriere {
             this->AmorcerOuverture();
         }
 
+        int LirePositionBarriere();
+        
         void AmorcerOuverture();
 
         void AmorcerFermeture();
