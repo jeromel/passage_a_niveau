@@ -48,8 +48,6 @@ class Barriere {
         void AmorcerOuverture();
 
         void AmorcerFermeture();
-
-        void InitialiserPositionDepart();
         
         bool ManoeuvrerOuvrir();
 

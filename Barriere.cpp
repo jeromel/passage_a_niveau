@@ -72,16 +72,6 @@ void Barriere::AmorcerOuverture() {
     Serial.println(")");
 }
 
-void Barriere::InitialiserPositionDepart(){
-  this->_servoMoteurBarriere.attach(this->_numeroPinServoMoteurBarriere);
-  
-  this->AmorcerOuverture();
-
-  this->_servoMoteurBarriere.writeMicroseconds(this->_angleActuel);
-
-  this->_servoMoteurBarriere.detach();
-}
-
 bool Barriere::ManoeuvrerFermer() {
     bool manoeuvreTerminee = false;
   

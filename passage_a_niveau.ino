@@ -17,7 +17,7 @@
 #define VITESSE_SERVO 80
 #define ANGLE_FERMETURE 1300
 #define ANGLE_OUVERTURE 1900
-#define PAS_ANGULAIRE 20
+#define PAS_ANGULAIRE 60
 
 
 #define PIN_FEU_DROIT 4
@@ -38,7 +38,7 @@ Bounce capteurFermeture;                              // anti rebond
 
 
 #include "PassageNiveauContexte.h"
-#include "PassageNiveauEtatInitialiser.h"
+#include "PassageNiveauEtatInitialiserCapteurs.h"
 
 PassageNiveauContexte *contexte;
 
@@ -55,13 +55,10 @@ void setup()
 
   Clignoter * clignoter = new Clignoter();
 
-  Barriere * barriereGauche = new Barriere(PIN_SERVO_GAUCHE, ANGLE_FERMETURE, ANGLE_OUVERTURE, PAS_ANGULAIRE, VITESSE_SERVO, true);
+  Barriere * barriereGauche = new Barriere(PIN_SERVO_GAUCHE, ANGLE_FERMETURE, ANGLE_OUVERTURE, PAS_ANGULAIRE, VITESSE_SERVO, false);
   Barriere * barriereDroite = new Barriere(PIN_SERVO_DROIT, ANGLE_FERMETURE, ANGLE_OUVERTURE, PAS_ANGULAIRE, VITESSE_SERVO, false);
 
-  barriereGauche->InitialiserPositionDepart();
-  barriereDroite->InitialiserPositionDepart();
-            
-  contexte  = new PassageNiveauContexte(new PassageNiveauEtatInitialiser(), feux, nombreFeux, clignoter, barriereGauche, barriereDroite);
+  contexte  = new PassageNiveauContexte(new PassageNiveauEtatInitialiserCapteurs(), feux, nombreFeux, clignoter, barriereGauche, barriereDroite);
 } 
  
 void loop()

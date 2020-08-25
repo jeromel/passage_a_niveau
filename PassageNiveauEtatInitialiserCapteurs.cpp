@@ -2,8 +2,8 @@
 #include <Bounce2.h>
 
 #include "PassageNiveauContexte.h"
-#include "PassageNiveauEtatInitialiser.h"
-#include "PassageNiveauEtatAttenteOuverte.h"
+#include "PassageNiveauEtatInitialiserCapteurs.h"
+#include "PassageNiveauEtatAmorcerOuverture.h"
 
 #define PIN_SERVO_DROIT A2  
 #define PIN_SERVO_GAUCHE A3
@@ -19,8 +19,8 @@
 #define PIN_CAPTEUR_FERME 3  
 #define INTERVAL 50
 
-void PassageNiveauEtatInitialiser::TraiterEtat() {
-    Serial.println("PassageNiveauEtatInitialiser");
+void PassageNiveauEtatInitialiserCapteurs::TraiterEtat() {
+    Serial.println("PassageNiveauEtatInitialiserCapteurs");
 
     pinMode(PIN_CAPTEUR_OUVRE,INPUT_PULLUP);
     this->_contexte->capteurOuverture.attach(PIN_CAPTEUR_OUVRE);
@@ -30,5 +30,5 @@ void PassageNiveauEtatInitialiser::TraiterEtat() {
     this->_contexte->capteurFermeture.attach(PIN_CAPTEUR_FERME);
     this->_contexte->capteurFermeture.interval(INTERVAL);
 
-    this->_contexte->TransiterVers(new PassageNiveauEtatAttenteOuverte());
+    this->_contexte->TransiterVers(new PassageNiveauEtatAmorcerOuverture());
 }
