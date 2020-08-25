@@ -28,14 +28,7 @@
 * les capteurs
 ********************************************************************************/
 #include <Bounce2.h>
-
-#define PIN_CAPTEUR_OUVRE 2  
-#define PIN_CAPTEUR_FERME 3  
-#define INTERVAL 50
-
-Bounce capteurOuverture;                              // anti rebond
-Bounce capteurFermeture;                              // anti rebond
-
+  
 
 #include "PassageNiveauContexte.h"
 #include "PassageNiveauEtatInitialiserCapteurs.h"
@@ -58,13 +51,19 @@ void setup()
   Barriere * barriereGauche = new Barriere(PIN_SERVO_GAUCHE, ANGLE_FERMETURE, ANGLE_OUVERTURE, PAS_ANGULAIRE, VITESSE_SERVO, false);
   Barriere * barriereDroite = new Barriere(PIN_SERVO_DROIT, ANGLE_FERMETURE, ANGLE_OUVERTURE, PAS_ANGULAIRE, VITESSE_SERVO, false);
 
-  contexte  = new PassageNiveauContexte(new PassageNiveauEtatInitialiserCapteurs(), feux, nombreFeux, clignoter, barriereGauche, barriereDroite);
+  
+  Bounce capteurOuverture;
+  Bounce capteurFermeture;
+  
+  contexte  = new PassageNiveauContexte(new PassageNiveauEtatInitialiserCapteurs(), feux, nombreFeux, clignoter, barriereGauche, barriereDroite, capteurOuverture, capteurFermeture);
 } 
  
 void loop()
 {    
     delay(100);
-    capteurOuverture.update();
-    capteurFermeture.update();
+    contexte->capteurOuverture.update();
+    contexte->capteurFermeture.update();
+
+    
     contexte->TraiterFonctionDuContexte();
 }

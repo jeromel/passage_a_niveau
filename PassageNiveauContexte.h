@@ -37,7 +37,7 @@ class PassageNiveauContexte {
         Bounce capteurOuverture;                              // anti rebond
         Bounce capteurFermeture;                              // anti rebond
 
-        PassageNiveauContexte(PassageNiveauEtat *etat, Feu ** feux, int nombreFeux, Clignoter * clignoter, Barriere * barriereGauche, Barriere * barriereDroite) : _etat(nullptr) { 
+        PassageNiveauContexte(PassageNiveauEtat *etat, Feu ** feux, int nombreFeux, Clignoter * clignoter, Barriere * barriereGauche, Barriere * barriereDroite, Bounce capteurOuverture, Bounce capteurFermeture) : _etat(nullptr) { 
             this->nombreFeux = nombreFeux;
             this->feux = feux;
             
@@ -46,6 +46,9 @@ class PassageNiveauContexte {
             this->barriereGauche = barriereGauche;
             this->barriereDroite = barriereDroite;
 
+            this->capteurOuverture = capteurOuverture;
+            this->capteurFermeture = capteurFermeture;
+            
             this->TransiterVers(etat);
         }
 
