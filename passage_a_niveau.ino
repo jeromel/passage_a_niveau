@@ -5,21 +5,9 @@
 * ce qui fait que quand un servo tourne dans un sens l'autre tourne dans l'autre sens
 * et 2 feux routiers qui clignotent
 ***************************************************************************/
-
-#include <Servo.h>
-#include <Bounce2.h>
-
-#include "include/moteur_barriere.h"
-
-#define PIN_CAPTEUR_OUVRE 2  
-#define PIN_CAPTEUR_FERME 3  
-#define INTERVAL 50
-
-#define PIN_FEU_DROIT 4
-#define PIN_FEU_GAUCHE 5
-#define ALLUME 0
-#define ETEINT 255
-#define VITESSE_CLIGNOTEMENT 250
+#include "Feu.h"
+#include "Clignoter.h"
+#include "Barriere.h"
 
 #define PIN_SERVO_DROIT A2  
 #define PIN_SERVO_GAUCHE A3
@@ -31,73 +19,55 @@
 #define ANGLE_OUVERTURE 1900
 #define PAS_ANGULAIRE 20
 
-/***********************************************************************
-* les feux routiers
-**************************************************************************/
 
-int cycle = 0;                                        // cycles de clignotement
-int changement = VITESSE_CLIGNOTEMENT;                // vitesse de clignotement
-unsigned long timerLed = millis();                    // timer pour le clignotement
+#define PIN_FEU_DROIT 4
+#define PIN_FEU_GAUCHE 5
+
 
 /******************************************************************************
 * les capteurs
 ********************************************************************************/
+#include <Bounce2.h>
+
+#define PIN_CAPTEUR_OUVRE 2  
+#define PIN_CAPTEUR_FERME 3  
+#define INTERVAL 50
 
 Bounce capteurOuverture;                              // anti rebond
 Bounce capteurFermeture;                              // anti rebond
 
 
-/*****************************************************************************
-* clignotement des feux routiers
-***************************************************************************/
+#include "PassageNiveauContexte.h"
+#include "PassageNiveauEtatInitialiser.h"
 
-void clignote() {
-if (timerLed + changement < millis())     // vitesse de clignotement
-   {
-   timerLed = millis();                  // reinit le timer
-   switch (cycle) {
-           case 0 : {analogWrite(PIN_FEU_DROIT,ALLUME); analogWrite(PIN_FEU_GAUCHE,ALLUME);cycle = 1;break;}      // on allume
-           case 1 : {analogWrite(PIN_FEU_DROIT,ETEINT); analogWrite(PIN_FEU_GAUCHE,ETEINT);cycle = 0;break;}      // on eteint
-       }
-   }
-}
+PassageNiveauContexte *contexte;
+
 
 void setup()
 {
-  moteur_barriere_initialiser();
+  Serial.begin(115200);
 
-   pinMode(PIN_CAPTEUR_OUVRE,INPUT_PULLUP);capteurOuverture.attach(PIN_CAPTEUR_OUVRE);capteurOuverture.interval(INTERVAL);
-   pinMode(PIN_CAPTEUR_FERME, INPUT_PULLUP);capteurFermeture.attach(PIN_CAPTEUR_FERME);capteurFermeture.interval(INTERVAL);
-   analogWrite(PIN_FEU_DROIT,ETEINT);
-   analogWrite(PIN_FEU_GAUCHE,ETEINT);
+  int nombreFeux = 2;
+  Feu ** feux = (Feu **) malloc(sizeof(Feu *) * nombreFeux);
+  
+  feux[0] = new Feu(PIN_FEU_GAUCHE);
+  feux[1] = new Feu(PIN_FEU_DROIT);
 
-   Serial.begin(115200);
-   Serial.println("On ouvre ?");
+  Clignoter * clignoter = new Clignoter();
+
+  Barriere * barriereGauche = new Barriere(PIN_SERVO_GAUCHE, ANGLE_FERMETURE, ANGLE_OUVERTURE, PAS_ANGULAIRE, VITESSE_SERVO, true);
+  Barriere * barriereDroite = new Barriere(PIN_SERVO_DROIT, ANGLE_FERMETURE, ANGLE_OUVERTURE, PAS_ANGULAIRE, VITESSE_SERVO, false);
+
+  barriereGauche->InitialiserPositionDepart();
+  barriereDroite->InitialiserPositionDepart();
+            
+  contexte  = new PassageNiveauContexte(new PassageNiveauEtatInitialiser(), feux, nombreFeux, clignoter, barriereGauche, barriereDroite);
 } 
  
 void loop()
 {    
-    
-   
-}
-
-void passage_a_niveau_gerer() {
-  if (situation == ferme) {
-    clignote();
-  }
-    
-  if (capteurOuverture.fell()) {
-    moteur_barriere_ouvrir();
-  }
-      
-  if (capteurFermeture.fell()) {
-  moteur_barriere_fermer();
-  }
-    
-  if (situation == encours) {
-    moteur_barriere_manoeuvrer();
-  }
-  
-  capteurOuverture.update();
-  capteurFermeture.update();
+    delay(100);
+    capteurOuverture.update();
+    capteurFermeture.update();
+    contexte->TraiterFonctionDuContexte();
 }
