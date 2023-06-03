@@ -5,7 +5,7 @@
 #include "PassageNiveauEtatInitialiserCapteurs.h"
 #include "PassageNiveauEtatAmorcerOuverture.h"
 
-#define PIN_CAPTEUR_OUVRE 2  
+#define PIN_CAPTEUR_OUVRE 4  
 #define PIN_CAPTEUR_FERME 3  
 #define INTERVAL 50
 

@@ -20,7 +20,7 @@
 #define PAS_ANGULAIRE 60
 
 
-#define PIN_FEU_DROIT 4
+#define PIN_FEU_DROIT 6
 #define PIN_FEU_GAUCHE 5
 
 
