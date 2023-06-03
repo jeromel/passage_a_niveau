@@ -2,7 +2,7 @@
 
 #include "PassageNiveauEtatFermerEnCours.h"
 #include "PassageNiveauContexte.h"
-#include "PassageNiveauEtatAttenteFermee.h"
+#include "PassageNiveauEtatAttenteFermeeAvantPassageTrain.h"
 #include "Barriere.h"
 #include "Clignoter.h"
 
@@ -25,6 +25,6 @@ void PassageNiveauEtatFermerEnCours::TraiterEtat() {
     Serial.println(positionBarriereDroite);
     
     if (true == manoeuvreTermineeDroite) {    
-      this->_contexte->TransiterVers(new PassageNiveauEtatAttenteFermee());
+      this->_contexte->TransiterVers(new PassageNiveauEtatAttenteFermeeAvantPassageTrain());
     }
 }
